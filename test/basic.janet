@@ -3,13 +3,6 @@
 (import gp/net/http :as http)
 (import spork/htmlgen :as h)
 
-(test-macro (route :html :get "/" index)
-  (@my-routes-push {:handler index :method :get :middleware :html :path "/"}))
-
-(test-macro (route :delete "/" index)
-  (@my-routes-push {:handler index :method :delete :path "/"}))
-
-
 (defn test-app [req]
   (let [f (http/drive (create-test-routes))]
     (f req)))
@@ -22,7 +15,6 @@
     (route :html :get "/" index)
     (route :html :post "/" post-index)
     (create-test-routes identity)) @{"/" @{"GET" @index "POST" @post-index}})
-
 
 (deftest "testing test-app"
   (do

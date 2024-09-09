@@ -35,7 +35,7 @@
 # TODO:
 # - fail if route exists
 # - add :json middleware
-(defmacro route
+(defn route
   ```There are multiple ways to use this macro:
 
    (route :get \"/\" (fn [req] (render \"Hello\")))
@@ -51,13 +51,13 @@
   [& args]
   (let [with-middlware (= (length args) 4)]
     (if with-middlware
-     ~(,my-routes-push {:path ,(get args 2)
-                        :method ,(get args 1)
-                        :handler ,(get args 3)
-                        :middleware ,(get args 0)})
-     ~(,my-routes-push {:path ,(get args 1)
-                        :method ,(get args 0)
-                        :handler ,(get args 2)}))))
+     (my-routes-push {:path (get args 2)
+                      :method (get args 1)
+                      :handler (get args 3)
+                      :middleware (get args 0)})
+     (my-routes-push {:path (get args 1)
+                      :method (get args 0)
+                      :handler (get args 2)}))))
 
 (defn create-routes [&opt dispatch]
   (default dispatch http/dispatch)
